@@ -1,28 +1,43 @@
 class Bot {
 
-    makeMove(gamestate) {
+    getsKilledBy(move1, move2){ ///does move1 get killed by move2?
 
-        const weaknesses = {"R" : "P", "R" : "D",
-                        "S" : "R", "S" : "D",
-                        "P" : "S", "P" : "D",
-                        "D" : "W",
-                        "W" : "R", "W" : "P", "W" : "S"}
+        const weaknessOf = {"R" : "P", "R" : "D",
+                            "S" : "R", "S" : "D",
+                            "P" : "S", "P" : "D",
+                            "D" : "W",
+                            "W" : "R", "W" : "P", "W" : "S"}
+        
+        return move2 == weaknessOf[move1]
+    }
+        
+
+
+    makeMove(gamestate) {
 
         var currentRound = gamestate.rounds.length
 
         if (currentRound == 0){
             this.myScore = 0
             this.opponentScore = 0
+            this.drawCount = 0
             this.dynamite = 99
             return "D"              ///start with a bang
         }
         
-        // else {
-        //     var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
-        //     var myLastMove = gamestate.rounds[gamestate.rounds.length - 1].p1
-        //     if 
-
-        // }
+        else {
+             var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
+             var myLastMove = gamestate.rounds[gamestate.rounds.length - 1].p1
+             if (getsKilledBy(myLastMove, opponentLastMove)){
+                this.opponentScore += 1
+             }
+             else if (this.getsKilledBy(opponentLastMove, myLastMove)){
+                this.myScore += 1
+             }
+             else {
+                drawCount += 1
+             }
+        }
         
 
         var beatLastMoveToMake = {"R" : "P",    ///if opp played R, gives P
@@ -45,7 +60,6 @@ class Bot {
             this.dynamite -= 1
         }
         return move
-
     }
 }
 
