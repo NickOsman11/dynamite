@@ -1,7 +1,3 @@
-function get
-
-
-
 class Bot {
 
     getsKilledBy(move1, move2){ ///does move1 get killed by move2?
@@ -66,6 +62,9 @@ class Bot {
         var move = beatLastMoveToMake[opponentLastMove]
         if (move == "D"){
             this.dynamite -= 1
+            if (this.dynamite < 0){
+                move = "R"
+            }
         }
         return move
     }
