@@ -27,10 +27,11 @@ class Bot {
 
         var beatLastMoveToMake = {"R" : "P",    ///if opp played R, gives P
                                 "P" : "S",
-                                "S" : "R",
+                                "S" : "R",      //
                                 "D" : "D",      ///fight fire with fire
-                                "W" : "S"}
+                                "W" : "S"}      // "W" : "D"
 
+        
 
         var currentRound = gamestate.rounds.length
         
@@ -38,12 +39,32 @@ class Bot {
         //     this.dynamite -= 1
         //     return "D"
         // }
+        if(currentRound > 2){ //for count two move
+            let opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
+            let opponentLast2Move = gamestate.rounds[gamestate.rounds.length - 2].p2
+            // P = 1, R = 2, S = 3, D = 0, W = 0
+            // 1 2  total     3  
+            // P P   2       R/S   
+            // P R   3        S
+            // P S   4  
+            // P R   3
+            // R R   4
+            // R S   5
+            // S S   6
+            // D W   0
+            // D D   0
+            // W D   0
+            // W W   0
 
-        var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
-        var move = beatLastMoveToMake[opponentLastMove]
-        if (move == "D"){
+            // count opponent dynamite and Water bombs used
+        } else if(currentRound <= 2){
+            var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
+            var move = beatLastMoveToMake[opponentLastMove]
+            if (move == "D"){
             this.dynamite -= 1
+            }
         }
+        
         return move
 
     }
