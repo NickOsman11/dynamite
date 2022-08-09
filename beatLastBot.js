@@ -45,8 +45,6 @@ class Bot {
                 this.drawCount += 1
              }
              this.oppnentsMoveHistory += opponentLastMove
-
-
         }
         
 
