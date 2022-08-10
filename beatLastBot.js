@@ -1,7 +1,21 @@
 class Bot {
 
+    updateScore(){
+        var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
+        var myLastMove = gamestate.rounds[gamestate.rounds.length - 1].p1
+        if (this.getsKilledBy(myLastMove, opponentLastMove)){
+           this.opponentScore += 1
+        }
+        else if (this.getsKilledBy(opponentLastMove, myLastMove)){
+           this.myScore += 1
+        }
+        else {
+           this.drawCount += 1
+        }
+        this.oppnentsMoveHistory += opponentLastMove
+    }
+    
     getsKilledBy(move1, move2){ ///does move1 get killed by move2?
-
 
         const weaknessOf = {"R" : "P", "R" : "D",
                             "S" : "R", "S" : "D",
@@ -29,18 +43,7 @@ class Bot {
         }
         
         else {
-             var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
-             var myLastMove = gamestate.rounds[gamestate.rounds.length - 1].p1
-             if (this.getsKilledBy(myLastMove, opponentLastMove)){
-                this.opponentScore += 1
-             }
-             else if (this.getsKilledBy(opponentLastMove, myLastMove)){
-                this.myScore += 1
-             }
-             else {
-                this.drawCount += 1
-             }
-             this.oppnentsMoveHistory += opponentLastMove
+            this.updateScore()
         }
         
 
