@@ -25,10 +25,6 @@ class Bot {
         return move2 == weaknessOf[move1]
     }
 
-
-        
-
-
     makeMove(gamestate) {
 
         var currentRound = gamestate.rounds.length
