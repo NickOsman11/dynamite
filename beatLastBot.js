@@ -1,6 +1,6 @@
 class Bot {
 
-    updateScore(){
+    updateScore(gamestate){
         var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
         var myLastMove = gamestate.rounds[gamestate.rounds.length - 1].p1
         if (this.getsKilledBy(myLastMove, opponentLastMove)){
@@ -43,7 +43,7 @@ class Bot {
         }
         
         else {
-            this.updateScore()
+            this.updateScore(gamestate)
         }
         
 
