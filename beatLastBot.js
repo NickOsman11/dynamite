@@ -37,9 +37,11 @@ class Bot {
                                 "W" : "S"}
             var move = beatLastMove[opponentLastMove]
         }
-
-        if (this.strategyChange == 1){
-
+        else if (this.strategyChange == 1){
+            var move = opponentLastMove
+        }
+        else {
+            var move = "R"
         }
         return move
     }
