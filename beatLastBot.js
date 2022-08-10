@@ -29,16 +29,19 @@ class Bot {
 
     chooseStrategy(opponentLastMove){
 
+
         if (this.drawCount == 2){
             return "D";
         }
         if (this.strategyNumber == 0){
+
             var beatLastMove = {"R" : "P",    ///if opp played R, will play P
                                 "P" : "S",
                                 "S" : "R",
                                 "D" : "D",      ///fight fire with fire
                                 "W" : "S"}
             var move = beatLastMove[opponentLastMove]
+
             
         }
         else if (this.strategyNumber == 1){
@@ -61,6 +64,7 @@ class Bot {
             var movePick = randomStrategy[opponentLastMove];
             var move = movePick[Math.floor(Math.random()*6)];
             console.log('try');
+
 
 
         }
@@ -93,8 +97,10 @@ class Bot {
         
         
         if (this.scoreGap > 50){
+
             this.strategyNumber ++
             this.scoreGap = 0
+
         }
         var move = this.chooseStrategy(opponentLastMove)
 
