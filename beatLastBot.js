@@ -4,9 +4,11 @@ class Bot {
 
         if (this.getsKilledBy(myLastMove, opponentLastMove)){ ///does my last move get killed by oppoent's last move?
            this.opponentScore += 1
+           this.scoreGap += 1
         }
         else if (this.getsKilledBy(opponentLastMove, myLastMove)){
            this.myScore += 1
+           this.scoreGap -= 1
         }
         else {
            this.drawCount += 1
@@ -25,8 +27,24 @@ class Bot {
         return move2 == weaknessOf[move1]
     }
 
+    chooseStrategy(opponentLastMove){
 
-        
+        if (this.strategyChange == 0){
+            var beatLastMove = {"R" : "P",    ///if opp played R, will play P
+                                "P" : "S",
+                                "S" : "R",
+                                "D" : "D",      ///fight fire with fire
+                                "W" : "S"}
+            var move = beatLastMove[opponentLastMove]
+        }
+
+        if (this.strategyChange == 1){
+
+        }
+        return move
+    }
+
+
 
 
     makeMove(gamestate) {
@@ -39,6 +57,8 @@ class Bot {
             this.drawCount = 0
             this.dynamite = 99
             this.oppnentsMoveHistory = ""
+            this.scoreGap = 0
+            this.strategyChange = 0
             return "D"              ///start with a bang
         }
         
@@ -48,45 +68,16 @@ class Bot {
             this.updateScore(opponentLastMove, myLastMove)
         }
         
+        
+        if (this.scoreGap > 50){
+            this.strategyChange ++
+        }
+        var move = this.chooseStrategy(opponentLastMove)
 
-
-        var beatLastMove = {"R" : "P",    ///if opp played R, will play P
-                            "P" : "S",
-                            "S" : "R",
-                            "D" : "D",      ///fight fire with fire
-                            "W" : "S"}
-
-
+        
         
 
 
-
-        
-        if(currentRound > 1){ //for count two move 
-
-
-            // P = 1, R = 2, S = 3, D = 0, W = 0
-            // 1 2  total     3  
-            // P P   2       R/S   
-            // P R   3        S
-            // P S   4  
-            // P R   3
-            // R R   4
-            // R S   5
-            // S S   6
-            // D W   0
-            // D D   0
-            // W D   0
-            // W W   0
-
-            // count opponent dynamite and Water bombs used
-        } else if(currentRound <= 2){
-            var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
-            var move = beatLastMoveToMake[opponentLastMove]
-            if (move == "D"){
-            this.dynamite -= 1
-
-        var move = beatLastMove[opponentLastMove]
         if (move == "D"){
             this.dynamite -= 1
             if (this.dynamite < 0){
