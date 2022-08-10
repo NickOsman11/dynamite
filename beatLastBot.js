@@ -1,11 +1,20 @@
-function get
-
-
-
 class Bot {
 
-    getsKilledBy(move1, move2){ ///does move1 get killed by move2?
+    updateScore(opponentLastMove, myLastMove){
 
+        if (this.getsKilledBy(myLastMove, opponentLastMove)){ ///does my last move get killed by oppoent's last move?
+           this.opponentScore += 1
+        }
+        else if (this.getsKilledBy(opponentLastMove, myLastMove)){
+           this.myScore += 1
+        }
+        else {
+           this.drawCount += 1
+        }
+        this.oppnentsMoveHistory += opponentLastMove
+    }
+    
+    getsKilledBy(move1, move2){ ///does move1 get killed by move2?
 
         const weaknessOf = {"R" : "P", "R" : "D",
                             "S" : "R", "S" : "D",
@@ -15,11 +24,12 @@ class Bot {
         
         return move2 == weaknessOf[move1]
     }
+
+
         
 
 
     makeMove(gamestate) {
-
 
         var currentRound = gamestate.rounds.length
 
@@ -33,41 +43,25 @@ class Bot {
         }
         
         else {
-             var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
-             var myLastMove = gamestate.rounds[gamestate.rounds.length - 1].p1
-             if (this.getsKilledBy(myLastMove, opponentLastMove)){
-                this.opponentScore += 1
-             }
-             else if (this.getsKilledBy(opponentLastMove, myLastMove)){
-                this.myScore += 1
-             }
-             else {
-                this.drawCount += 1
-             }
-             this.oppnentsMoveHistory += opponentLastMove
-
-
+            var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
+            var myLastMove = gamestate.rounds[gamestate.rounds.length - 1].p1
+            this.updateScore(opponentLastMove, myLastMove)
         }
         
 
-        var beatLastMoveToMake = {"R" : "P",    ///if opp played R, gives P
-                                "P" : "S",
-                                "S" : "R",
-                                "D" : "D",      ///fight fire with fire
-                                "W" : "S"}
+        var beatLastMove = {"R" : "P",    ///if opp played R, will play P
+                            "P" : "S",
+                            "S" : "R",
+                            "D" : "D",      ///fight fire with fire
+                            "W" : "S"}
 
 
-        var currentRound = gamestate.rounds.length
-        
-        // if (this.score > 900 && this.dynamite > 0){
-        //     this.dynamite -= 1
-        //     return "D"
-        // }
-
-        var opponentLastMove = gamestate.rounds[gamestate.rounds.length - 1].p2
-        var move = beatLastMoveToMake[opponentLastMove]
+        var move = beatLastMove[opponentLastMove]
         if (move == "D"){
             this.dynamite -= 1
+            if (this.dynamite < 0){
+                move = "R"
+            }
         }
         return move
     }
