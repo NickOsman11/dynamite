@@ -29,19 +29,13 @@ class Bot {
 
     chooseStrategy(opponentLastMove){
 
-
-        if (this.drawCount == 2){
-            return "D";
-        }
         if (this.strategyNumber == 0){
-
-            var beatLastMove = {"R" : "P",    ///if opp played R, will play P
-                                "P" : "S",
-                                "S" : "R",
-                                "D" : "D",      ///fight fire with fire
-                                "W" : "S"}
+            var beatLastMove = {"R" : "R",    ///if opp played R, will play P
+                                "P" : "P",
+                                "S" : "S",
+                                "D" : "W",      ///fight fire with fire
+                                "W" : "W"}
             var move = beatLastMove[opponentLastMove]
-
             
         }
         else if (this.strategyNumber == 1){
@@ -66,7 +60,6 @@ class Bot {
             console.log('try');
 
 
-
         }
         return move
     }
@@ -82,11 +75,11 @@ class Bot {
             this.myScore = 0
             this.opponentScore = 0
             this.drawCount = 0
-            this.dynamite = 99
+            this.dynamite = 100
             this.oppnentsMoveHistory = ""
             this.scoreGap = 0
             this.strategyNumber = 0
-            return "D"              ///start with a bang
+            return "R"              ///start with a bang
         }
         
         else {
@@ -97,10 +90,8 @@ class Bot {
         
         
         if (this.scoreGap > 50){
-
             this.strategyNumber ++
             this.scoreGap = 0
-
         }
         var move = this.chooseStrategy(opponentLastMove)
 
